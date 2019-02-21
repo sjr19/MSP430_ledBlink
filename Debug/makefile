@@ -2,14 +2,17 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-CG_TOOL_ROOT := /Applications/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS
+CG_TOOL_ROOT := /Applications/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.5.LTS
 
 GEN_OPTS__FLAG := 
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
 "./main.obj" \
+"../lnk_msp430fr5994.cmd" \
 $(GEN_CMDS__FLAG) \
+-llibmpu_init.a \
+-llibmath.a \
 -llibc.a \
 
 -include ../makefile.init
@@ -130,21 +133,21 @@ BIN_OUTPUTS__QUOTED += \
 
 
 # All Target
-all: $(OBJS) $(GEN_CMDS)
+all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@$(MAKE) --no-print-directory -Onone "led_blink.out"
 
 # Tool invocations
-led_blink.out: $(OBJS) $(GEN_CMDS)
+led_blink.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
-	@echo 'Invoking: ARM Linker'
-	"/Applications/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/bin/armcl" -mv4 --code_state=32 -g --diag_warning=225 --diag_wrap=off --display_error_number -z -m"led_blink.map" -i"/Applications/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/lib" -i"/Applications/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="led_blink_linkInfo.xml" --rom_model -o "led_blink.out" $(ORDERED_OBJS)
+	@echo 'Invoking: MSP430 Linker'
+	"/Applications/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.5.LTS/bin/cl430" -vmspx --data_model=restricted --use_hw_mpy=F5 --advice:power=all --advice:hw_config=all --define=__MSP430FR5994__ --define=_MPU_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 -z -m"led_blink.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"/Applications/ti/ccsv8/ccs_base/msp430/include" -i"/Applications/ti/ccsv8/ccs_base/msp430/lib/5xx_6xx_FRxx" -i"/Applications/ti/ccsv8/ccs_base/msp430/lib/FR59xx" -i"/Applications/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.5.LTS/lib" -i"/Applications/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.5.LTS/include" --priority --reread_libs --define=_MPU_ENABLE --diag_wrap=off --display_error_number --warn_sections --xml_link_info="led_blink_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "led_blink.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 led_blink.hex: $(EXE_OUTPUTS)
 	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
-	@echo 'Invoking: ARM Hex Utility'
-	"/Applications/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/bin/armhex"  -o "led_blink.hex" $(EXE_OUTPUTS__QUOTED)
+	@echo 'Invoking: MSP430 Hex Utility'
+	"/Applications/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.5.LTS/bin/hex430" --memwidth=8 --romwidth=8 -o "led_blink.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
 

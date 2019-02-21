@@ -1,48 +1,25 @@
+// Blink both the LEDs on the board and an external LED in a sequence
 
-//***************************************************************************************
-//  Blink the LED Demo - Software Toggle P1.0
-//
-//  Description; Toggle P1.0 inside of a software loop.
-//  ACLK = n/a, MCLK = SMCLK = default DCO
-//
-//                MSP430x5xx
-//             -----------------
-//         /|\|              XIN|-
-//          | |                 |
-//          --|RST          XOUT|-
-//            |                 |
-//            |             P1.0|-->LED
-//
-//***************************************************************************************
+#include <msp430.h>
 
-#include <driverlib.h>
+int main(void)
+{
+    WDTCTL = WDTPW | WDTHOLD;               // Stop WDT
 
-int main(void) {
+    // Configure GPIO
+    P1OUT &= ~0x07;                         // Clear P1.0, P1.1, P1.2 output latch for a defined power-on state
+    P1DIR |= 0x07;                          // Set P1.0, P1.1, P1.2 to output direction
 
-    volatile uint32_t i;
-
-    // Stop watchdog timer
-    WDT_A_hold(WDT_A_BASE);
-
-    // Set P1.0 to output direction
-    GPIO_setAsOutputPin(
-        GPIO_PORT_P1,
-        GPIO_PIN0
-        );
-
-    // Disable the GPIO power-on default high-impedance mode
-    // to activate previously configured port settings
-    PMM_unlockLPM5();
+    PM5CTL0 &= ~LOCKLPM5;                   // Disable the GPIO power-on default high-impedance mode
+                                            // to activate previously configured port settings
 
     while(1)
     {
-        // Toggle P1.0 output
-        GPIO_toggleOutputOnPin(
-            GPIO_PORT_P1,
-            GPIO_PIN0
-            );
-
-        // Delay
-        for(i=10000; i>0; i--);
+        P1OUT = 0x01;
+        __delay_cycles(300000);
+        P1OUT = 0x02;
+        __delay_cycles(300000);
+        P1OUT = 0x04;
+        __delay_cycles(300000);
     }
 }
